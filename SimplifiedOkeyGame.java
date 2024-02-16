@@ -46,11 +46,22 @@ public class SimplifiedOkeyGame {
      * player at index 0 gets 15 tiles and starts first
      * other players get 14 tiles, this method assumes the tiles are already shuffled
      */
+
+     //not done yet if we cant use arraylist. Should be changed in that case.
+    //-------------------------PARTIALLY DONE-----------------------------
+    
     public void distributeTilesToPlayers() {
 
-
-
+        int index = 0;
+        for (Player player: players){
+            for (int i = 0; i < 13; i++){
+                player.addTile(tiles[index]);
+                index++;
+            }
+        }
+        players[0].addTile(tiles[index]); 
     }
+    
 
     /*
      * TODO: get the last discarded tile for the current player
