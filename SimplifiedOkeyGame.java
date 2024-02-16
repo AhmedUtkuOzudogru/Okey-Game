@@ -1,3 +1,4 @@
+import java.util.Random;
 public class SimplifiedOkeyGame {
 
     Player[] players;
@@ -25,6 +26,20 @@ public class SimplifiedOkeyGame {
 
         tileCount = 104;
     }
+    /*
+    * TODO: should randomly shuffle the tiles array before game starts
+    *  --------------------------DONE---------------------------------
+    */
+    public void shuffleTiles() {
+        Random random=new Random();
+        for(int i=0;i<tiles.length;i++){
+            int rand=random.nextInt(tiles.length);
+            Tile temp=tiles[i];
+            tiles[i]=tiles[rand];
+            tiles[rand]=temp;
+        }
+    }
+
 
     /*
      * TODO: distributes the starting tiles to the players
@@ -32,6 +47,8 @@ public class SimplifiedOkeyGame {
      * other players get 14 tiles, this method assumes the tiles are already shuffled
      */
     public void distributeTilesToPlayers() {
+
+
 
     }
 
@@ -54,12 +71,6 @@ public class SimplifiedOkeyGame {
         return null;
     }
 
-    /*
-     * TODO: should randomly shuffle the tiles array before game starts
-     */
-    public void shuffleTiles() {
-
-    }
 
     /*
      * TODO: check if game still continues, should return true if current player
