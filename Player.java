@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Player {
     String playerName;
     Tile[] playerTiles;
@@ -9,47 +11,97 @@ public class Player {
         numberOfTiles = 0; // currently this player owns 0 tiles, will pick tiles at the beggining of the game
     }
 
-    /*
-     * TODO: checks this player's hand to determine if this player is winning
-     * the player with a complete chain of 14 consecutive numbers wins the game
-     * note that the player whose turn is now draws one extra tile to have 15 tiles in hand,
-     * and the extra tile does not disturb the longest chain and therefore the winning condition
-     * check the assigment text for more details on winning condition
+    /**
+     * Checks if the players longest consecutive chain is equal or more than 14.
+     * If it is then the player wins the game.
+     * @return true if player wins, false otherwise
      */
     public boolean checkWinning() {
+        int longestChain = findLongestChain();
+
+        if (longestChain >= 14)
+        {
+            return true;
+        }
+
         return false;
     }
 
-    /*
-     * TODO: used for finding the longest chain in this player hand
-     * this method should iterate over playerTiles to find the longest chain
-     * of consecutive numbers, used for checking the winning condition
-     * and also for determining the winner if tile stack has no tiles
+    /**
+     * Finds the longest consecutive chain of the player.
+     * @return longest consecutive chain of the player
      */
     public int findLongestChain() {
         int longestChain = 0;
+        int currChain = 0;
 
+        for (int i = 1 ; i < this.playerTiles.length ; i++)
+        {
+            Tile currTile = this.playerTiles [i];
+            Tile preTile = this.playerTiles [i - 1];
+            if (currTile.canFormChainWith (preTile) )
+            {
+                currChain++;
+
+                if (currChain > longestChain)
+                {
+                    longestChain = currChain;
+                }
+            }
+
+            else if (!currTile.canFormChainWith (preTile) && !currTile.matchingTiles (preTile) )
+            {
+                currChain = 0;
+            }
+        }
         return longestChain;
     }
 
-    /*
-     * TODO: removes and returns the tile in given index position
+    /**
+     * Removes one tile from {@code this.playerTiles}
+     * @param index of the tile to be removed
+     * @return Tile that is being removed
      */
     public Tile getAndRemoveTile(int index) {
-        return null;
+        Tile removingTile = this.playerTiles [index];
+        this.playerTiles [index] = null;
+
+        // Shift remaining tiles to the left
+        for (int i = index - 1; i > 0 ; i--)
+        {
+            this.playerTiles [i + 1] = this.playerTiles [i];
+        }
+
+        // Clear the last slot
+        this.playerTiles [0] = null;
+
+        return removingTile;
     }
 
-    /*
-     * TODO: adds the given tile to this player's hand keeping the ascending order
-     * this requires you to loop over the existing tiles to find the correct position,
-     * then shift the remaining tiles to the right by one
+    /**
+     * Adds one tile to {@code this.playerTiles}
+     * @param t Tile to be added
      */
     public void addTile(Tile t) {
+        this.playerTiles [0] = t;
 
+        // Insert the new tile into its correct position in the sorted array
+        for (int i = 1 ; i < this.playerTiles.length ; i++)
+        {
+            for (int j = i ; j < this.playerTiles.length - 1 && 
+            (this.playerTiles [j + 1].compareTo (this.playerTiles[j] ) == -1  || this.playerTiles [j] == null) ; j--)
+            {
+                Tile temp = this.playerTiles [j];
+                this.playerTiles [j] = this.playerTiles [j + 1];
+                this.playerTiles [j + 1] = temp;
+            }
+        }
     }
 
-    /*
-     * finds the index for a given tile in this player's hand
+    /**
+     * Finds the index of a given tile in this player's hand.
+     * @param t Tile to search for
+     * @return Index of the tile in the hand, or -1 if not found
      */
     public int findPositionOfTile(Tile t) {
         int tilePosition = -1;
@@ -61,7 +113,7 @@ public class Player {
         return tilePosition;
     }
 
-    /*
+    /**
      * displays the tiles of this player
      */
     public void displayTiles() {
