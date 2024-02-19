@@ -111,7 +111,14 @@ public class SimplifiedOkeyGame {
      * TODO: check if game still continues, should return true if current player
      * finished the game. use checkWinning method of the player class to determine
      */
+    //-----------------------------------DONE--------------------------------------
     public boolean didGameFinish() {
+        for (Player element : players ){
+            if(element.checkWinning()==true){
+                return true;
+            }
+            
+        }
         return false;
     }
 
