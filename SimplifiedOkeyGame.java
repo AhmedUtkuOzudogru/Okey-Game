@@ -47,7 +47,7 @@ public class SimplifiedOkeyGame {
      * other players get 14 tiles, this method assumes the tiles are already shuffled
      */
      //not done yet if we cant use arraylist. Should be changed in that case.
-    //------------------------- DONE-----------------------------
+    //------------------------- Partially DONE-----------------------------
     
     public void distributeTilesToPlayers() {
 
@@ -86,8 +86,24 @@ public class SimplifiedOkeyGame {
      * and it will be given to the current player
      * returns the toString method of the tile so that we can print what we picked
      */
+    //----------------------------------Partially done ------------------------------
     public String getTopTile() {
-        return null;
+         // Check if there are any tiles left
+    if (tiles[0] == null) {
+        return "No tiles left";
+    }
+    Tile topTile = tiles[0];
+    // Shift the tiles array to the left to remove the top tile
+    for (int i = 0; i < tiles.length - 1; i++) {
+        tiles[i] = tiles[i + 1];
+        tiles[i+1]=null;
+
+    }
+    // Add the top tile to the current player
+    players[getCurrentPlayerIndex()].addTile(topTile);
+
+    // Return the toString representation of the top tile
+    return topTile.toString();
     }
 
 
