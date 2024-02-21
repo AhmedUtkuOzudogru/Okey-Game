@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Arrays;
 public class SimplifiedOkeyGame {
 
     Player[] players;
@@ -47,27 +48,26 @@ public class SimplifiedOkeyGame {
      * other players get 14 tiles, this method assumes the tiles are already shuffled
      */
      //not done yet if we cant use arraylist. Should be changed in that case.
-    //------------------------- Partially DONE-----------------------------
+    //-------------------------  DONE BUT NOT TESTED -----------------------------
     
     public void distributeTilesToPlayers() {
 
         int index = 0;
         for (Player player: players){
             for (int i = 0; i < 13; i++){
-                player.addTile(tiles[index]);
-                tiles[index]=null;   
+                player.addTile(tiles[index]);  
                 index++;
                         
             }
         }
         players[0].addTile(tiles[index]); 
-        tiles[index]=null;  
         index++;
-        for(int i=0;i<103-index;i++){
+        tiles=Arrays.copyOfRange(tiles,index+1,tiles.length-1);
+        /*for(int i=0;i<103-index;i++){
             tiles[i]=tiles[index];
             tiles[index]=null;
             index++;
-        }
+        }*/
     }
     
 
@@ -86,19 +86,19 @@ public class SimplifiedOkeyGame {
      * and it will be given to the current player
      * returns the toString method of the tile so that we can print what we picked
      */
-    //----------------------------------Partially done ------------------------------
+    //---------------------------------- done BUT NOT TESTED ------------------------------
     public String getTopTile() {
          // Check if there are any tiles left
-    if (tiles[0] == null) {
+    if (tiles.length == 0) {
         return "No tiles left";
     }
     Tile topTile = tiles[0];
     // Shift the tiles array to the left to remove the top tile
     for (int i = 0; i < tiles.length - 1; i++) {
         tiles[i] = tiles[i + 1];
-        tiles[i+1]=null;
-
     }
+    tiles=Arrays.copyOfRange(tiles,1,tiles.length-1);
+    
     // Add the top tile to the current player
     players[getCurrentPlayerIndex()].addTile(topTile);
 
@@ -162,8 +162,9 @@ public class SimplifiedOkeyGame {
      * this should set lastDiscardedTile variable and remove that tile from
      * that player's tiles
      */
+    //-----------------------------DONE------------------------------------
     public void discardTile(int tileIndex) {
-
+        lastDiscardedTile=players[getCurrentPlayerIndex()].getAndRemoveTile(tileIndex);
     }
 
     public void displayDiscardInformation() {
