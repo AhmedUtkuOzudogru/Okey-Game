@@ -177,6 +177,17 @@ public class SimplifiedOkeyGame {
      * you may choose based on how useful each tile is
      */
     public void discardTileForComputer() {
+        for(int a=0;a<players[getCurrentPlayerIndex()].getTiles().length-1;a++){
+            if(players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[getCurrentPlayerIndex()].getTiles()[a+1])){
+                discardTile(a);
+                break;
+            }else{
+                
+            }
+
+
+        }
+
 
     }
 
