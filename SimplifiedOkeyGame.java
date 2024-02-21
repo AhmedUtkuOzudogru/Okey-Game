@@ -159,8 +159,17 @@ public class SimplifiedOkeyGame {
      * you should check if getting the discarded tile is useful for the computer
      * by checking if it increases the longest chain length, if not get the top tile
      */
+    //----------------------- DONE BUT THERE MAY BE PROBLEM WİTH ADDİNG TO 0TH İNDEX--------------------------
     public void pickTileForComputer() {
-
+        int currLongest=players[getCurrentPlayerIndex()].findLongestChain();
+        Tile testLastTile=lastDiscardedTile;
+        players[getCurrentPlayerIndex()].addTile(testLastTile);
+        if(currLongest<players[getCurrentPlayerIndex()].findLongestChain()){
+            System.out.println(players[getCurrentPlayerIndex()].getName()+" picked The Last Discarded Tile"+getLastDiscardedTile());
+        }else{
+            System.out.println(players[getCurrentPlayerIndex()].getName()+" picked The Top Tile"+getTopTile());
+        }
+    //Tile[] copyOfOriginalArrays.copyOf(players[getCurrentPlayerIndex()].getTiles(),players[getCurrentPlayerIndex()].getTiles().length);
     }
 
     /*
