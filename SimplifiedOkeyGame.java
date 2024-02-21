@@ -130,8 +130,17 @@ public class SimplifiedOkeyGame {
     /* TODO: finds the player who has the highest number for the longest chain
      * if multiple players have the same length may return multiple players
      */
+    //---------------------- DONE------------------------------------
     public Player[] getPlayerWithHighestLongestChain() {
         Player[] winners = new Player[1];
+        int longestChain=0;
+       for(Player player:players){
+        if(player.findLongestChain()>=longestChain){
+            longestChain=player.findLongestChain();
+            winners[0]=player;
+        }
+        
+       }
 
         return winners;
     }
