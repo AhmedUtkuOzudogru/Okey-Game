@@ -181,10 +181,19 @@ public class SimplifiedOkeyGame {
             if(players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[getCurrentPlayerIndex()].getTiles()[a+1])){
                 discardTile(a);
                 break;
-            }else{
-                
             }
-
+        }
+        if(!(players[getCurrentPlayerIndex()].getTiles()[0].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[1]))){
+            discardTile(0);
+        }else if(!(players[getCurrentPlayerIndex()].getTiles()[14].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[13]))){
+            discardTile(14);
+        }
+        for(int a=1;a<players[getCurrentPlayerIndex()].getTiles().length-1;a++)
+        {
+            if(players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[a+1]) || players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[a-1]) ){
+                discardTile(a);
+                break;
+            }
 
         }
 
