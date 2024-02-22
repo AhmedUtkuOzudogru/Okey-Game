@@ -108,7 +108,7 @@ public class SimplifiedOkeyGame {
     
     // Add the top tile to the current player
     players[getCurrentPlayerIndex()].addTile(topTile);
-
+    */
     // Return the toString representation of the top tile
     return topTile.toString();
     }
