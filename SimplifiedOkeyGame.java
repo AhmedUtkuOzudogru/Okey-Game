@@ -190,7 +190,57 @@ public class SimplifiedOkeyGame {
      * you may choose based on how useful each tile is
      */
     public void discardTileForComputer() {
-        for(int a=0;a<players[getCurrentPlayerIndex()].getTiles().length-1;a++){
+
+        for (int a = 0; a < players[getCurrentPlayerIndex()].getTiles().length - 1; a++) {
+            if (players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[getCurrentPlayerIndex()].getTiles()[a + 1])) {
+                discardTile(a);
+                break;
+            }
+        }
+        
+        switch (players[getCurrentPlayerIndex()].getTiles()[0].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[1])) {
+            case true:
+                break;
+            case false:
+                discardTile(0);
+                break;
+        }
+        
+        switch (players[getCurrentPlayerIndex()].getTiles()[14].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[13])) {
+            case true:
+                break;
+            case false:
+                discardTile(14);
+                break;
+        }
+        
+        for (int a = 1; a < players[getCurrentPlayerIndex()].getTiles().length - 1; a++) {
+            if (players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[a + 1]) || players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[a - 1])) {
+                discardTile(a);
+                break;
+            }
+        }
+        
+        int longestChain = 0;
+        
+        for (int a = 0; a < players[currentPlayerIndex].numberOfTiles; a++) {
+            Tile testTile = players[currentPlayerIndex].getTiles()[a];
+        
+            players[currentPlayerIndex].getAndRemoveTile(a);
+            int currLongest = players[currentPlayerIndex].findLongestChain();
+            players[currentPlayerIndex].addTile(testTile);
+        
+            if (currLongest > longestChain) {
+                longestChain = currLongest;
+                discardTile(a);
+                break;
+            }
+        }
+        
+
+
+
+        /*for(int a=0;a<players[getCurrentPlayerIndex()].getTiles().length-1;a++){
             if(players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[getCurrentPlayerIndex()].getTiles()[a+1])){
                 discardTile(a);
                 break;
@@ -212,6 +262,24 @@ public class SimplifiedOkeyGame {
             }
 
         }
+
+        int longestChain = 0;
+
+            for (int a = 0; a < players[currentPlayerIndex].numberOfTiles; a++)
+            {
+                Tile testTile = players[currentPlayerIndex].getTiles()[a];
+
+                players[currentPlayerIndex].getAndRemoveTile(a);
+                int currLongest = players[currentPlayerIndex].findLongestChain();
+                players[currentPlayerIndex].addTile(testTile);
+
+                if(currLongest > longestChain)
+                {
+                    longestChain = currLongest;
+                    discardTile(a);
+                }
+            }*/
+
 
 
     }
