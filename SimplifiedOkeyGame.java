@@ -55,7 +55,7 @@ public class SimplifiedOkeyGame {
 
         int index = 0;
         for (Player player: players){
-            for (int i = 0; i < 13; i++){
+            for (int i =0 ; i < 14; i++){
                 player.addTile(tiles[index]);  
                 index++;
                         
@@ -121,13 +121,18 @@ public class SimplifiedOkeyGame {
      */
     //-----------------------------------DONE--------------------------------------
     public boolean didGameFinish() {
-        for (Player element : players ){
+        if(tiles.length!=0)
+        {
+            return players[getCurrentPlayerIndex()].checkWinning();
+        /*for (Player element : players )
+        {
             if(element.checkWinning()==true){
                 return true;
-            }
-            
+                }
+            }*/
+        }else{
+            return true;
         }
-        return false;
     }
 
     /* TODO: finds the player who has the highest number for the longest chain
@@ -162,17 +167,22 @@ public class SimplifiedOkeyGame {
      * you should check if getting the discarded tile is useful for the computer
      * by checking if it increases the longest chain length, if not get the top tile
      */
-    //----------------------- DONE BUT THERE MAY BE PROBLEM WİTH ADDİNG TO 0TH İNDEX--------------------------
+    //----------------------- DONE --------------------------
     public void pickTileForComputer() {
+
         int currLongest=players[getCurrentPlayerIndex()].findLongestChain();
         Tile testLastTile=lastDiscardedTile;
         players[getCurrentPlayerIndex()].addTile(testLastTile);
-        if(currLongest<players[getCurrentPlayerIndex()].findLongestChain()){
+        int newLongestChain = players[currentPlayerIndex].findLongestChain();
+        int position = players[currentPlayerIndex].findPositionOfTile(testLastTile);
+        players[currentPlayerIndex].getAndRemoveTile(position);
+        
+        if(currLongest<newLongestChain){
             System.out.println(players[getCurrentPlayerIndex()].getName()+" picked The Last Discarded Tile"+getLastDiscardedTile());
         }else{
             System.out.println(players[getCurrentPlayerIndex()].getName()+" picked The Top Tile"+getTopTile());
         }
-    //Tile[] copyOfOriginalArrays.copyOf(players[getCurrentPlayerIndex()].getTiles(),players[getCurrentPlayerIndex()].getTiles().length);
+
     }
 
     /*
@@ -188,8 +198,10 @@ public class SimplifiedOkeyGame {
         }
         if(!(players[getCurrentPlayerIndex()].getTiles()[0].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[1]))){
             discardTile(0);
+            
         }else if(!(players[getCurrentPlayerIndex()].getTiles()[14].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[13]))){
             discardTile(14);
+            
         }
         for(int a=1;a<players[getCurrentPlayerIndex()].getTiles().length-1;a++)
         {
