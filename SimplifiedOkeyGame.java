@@ -190,8 +190,31 @@ public class SimplifiedOkeyGame {
      * you may choose based on how useful each tile is
      */
     public void discardTileForComputer() {
+        Tile[] tiles = players[getCurrentPlayerIndex()].getTiles();
+    // Check for matching pairs
+    for (int i = 0; i < tiles.length - 1; i++) {
+        if (tiles[i].matchingTiles(tiles[i + 1])) {
+            discardTile(i);
+            return;
+        }
+    }
 
-        for (int a = 0; a < players[getCurrentPlayerIndex()].getTiles().length - 1; a++) {
+    // Check if any tile can form a chain with its neighbors
+    if (!tiles[0].canFormChainWith(tiles[1])) {
+        discardTile(0);
+        return;
+    }
+    
+    if (!tiles[tiles.length - 1].canFormChainWith(tiles[tiles.length - 2])) {
+        discardTile(tiles.length - 1);
+        return;
+    }
+
+    // If no specific conditions are met, discard the last tile
+    discardTile(tiles.length - 1);
+
+
+        /*for (int a = 0; a < players[getCurrentPlayerIndex()].getTiles().length - 1; a++) {
             if (players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[getCurrentPlayerIndex()].getTiles()[a + 1])) {
                 discardTile(a);
                 break;
@@ -235,7 +258,7 @@ public class SimplifiedOkeyGame {
                 discardTile(a);
                 break;
             }
-        }
+        }*/
         
 
 

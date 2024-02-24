@@ -65,6 +65,7 @@ public class Player {
     public Tile getAndRemoveTile(int index) {
         Tile removingTile = this.playerTiles [index];
         this.playerTiles [index] = null;
+        this.sortTiles();
 
         // Shift remaining tiles to the left
         for (int i = index - 1; i > 0 ; i--)
