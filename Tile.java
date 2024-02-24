@@ -31,6 +31,11 @@ public class Tile {
      */
     public int compareTo(Tile t) 
     {
+        if (t == null)
+        {
+            return 1;
+        }
+
         if(this.value < t.value)
         {
             return -1;

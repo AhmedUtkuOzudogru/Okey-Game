@@ -35,7 +35,7 @@ public class Player {
         int longestChain = 0;
         int currChain = 0;
 
-        for (int i = 1 ; i < this.playerTiles.length ; i++)
+        for (int i = 2 ; i < this.playerTiles.length ; i++)
         {
             Tile currTile = this.playerTiles [i];
             Tile preTile = this.playerTiles [i - 1];
@@ -86,14 +86,59 @@ public class Player {
         this.playerTiles [0] = t;
 
         // Insert the new tile into its correct position in the sorted array
+        sortTiles();
+    }
+
+    private void sortTiles ()
+    {
+
         for (int i = 1 ; i < this.playerTiles.length ; i++)
         {
-            for (int j = i ; j < this.playerTiles.length - 1 && 
-            (this.playerTiles [j + 1].compareTo (this.playerTiles[j] ) == -1  || this.playerTiles [j] == null) ; j--)
+            int j = i;
+            int currValue = 0;
+            int nextValue = 0;
+            if (this.playerTiles [j] == null)
+            {
+                nextValue = -1;
+            }
+            else 
+            {
+                nextValue = this.playerTiles [j].getValue();
+            }
+            if (this.playerTiles [j - 1] == null)
+            {
+                currValue = -1;
+            }
+            else
+            {
+                currValue = this.playerTiles [j - 1].getValue();
+            }
+
+            while (j > 0 && currValue > nextValue)
             {
                 Tile temp = this.playerTiles [j];
-                this.playerTiles [j] = this.playerTiles [j + 1];
-                this.playerTiles [j + 1] = temp;
+                this.playerTiles [j] = this.playerTiles [j - 1];
+                this.playerTiles [j - 1] = temp;
+                j--;
+                if (j != 0)
+                {
+                    if (this.playerTiles [j] == null)
+                    {
+                        nextValue = -1;
+                    }
+                    else 
+                    {
+                        nextValue = this.playerTiles [j].getValue();
+                    }
+                    if (this.playerTiles [j - 1] == null)
+                    {
+                        currValue = -1;
+                    }
+                    else
+                    {
+                        currValue = this.playerTiles [j - 1].getValue();
+                    }
+                }
             }
         }
     }

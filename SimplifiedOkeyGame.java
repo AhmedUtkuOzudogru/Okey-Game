@@ -55,7 +55,7 @@ public class SimplifiedOkeyGame {
 
         int index = 0;
         for (Player player: players){
-            for (int i =0 ; i < 14; i++){
+            for (int i = 0; i < 14; i++){
                 player.addTile(tiles[index]);  
                 index++;
                         
