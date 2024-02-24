@@ -46,7 +46,7 @@ public class ApplicationMain {
                     do{
                         System.out.print("Your choice (1 or 2): ");
                         playerChoice = sc.nextInt();
-                    }while (playerChoice != 1 || playerChoice != 2);
+                    }while (!(playerChoice != 1 || playerChoice != 2));
                 }
                 else{
                     // on first turn the starting player does not pick up new tile
