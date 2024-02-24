@@ -194,6 +194,7 @@ public class SimplifiedOkeyGame {
             if(players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[getCurrentPlayerIndex()].getTiles()[a+1])){
                 discardTile(a);
                 break;
+              
             }
         }
         if(!(players[getCurrentPlayerIndex()].getTiles()[0].canFormChainWith(players[getCurrentPlayerIndex()].getTiles()[1]))){

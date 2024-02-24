@@ -74,6 +74,7 @@ public class Player {
 
         // Clear the last slot
         this.playerTiles [0] = null;
+        this.numberOfTiles--;
 
         return removingTile;
     }
@@ -84,7 +85,7 @@ public class Player {
      */
     public void addTile(Tile t) {
         this.playerTiles [0] = t;
-
+        this.numberOfTiles++;
         // Insert the new tile into its correct position in the sorted array
         sortTiles();
     }
@@ -149,7 +150,7 @@ public class Player {
      * @return Index of the tile in the hand, or -1 if not found
      */
     public int findPositionOfTile(Tile t) {
-        int tilePosition = -1;
+        int tilePosition = 0;
         for (int i = 0; i < numberOfTiles; i++) {
             if(playerTiles[i].matchingTiles(t)) {
                 tilePosition = i;
@@ -163,7 +164,7 @@ public class Player {
      */
     public void displayTiles() {
         System.out.println(playerName + "'s Tiles:");
-        for (int i = 0; i < numberOfTiles; i++) {
+        for (int i = 1; i < numberOfTiles; i++) {
             System.out.print(playerTiles[i].toString() + " ");
         }
         System.out.println();
