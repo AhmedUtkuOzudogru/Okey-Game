@@ -159,6 +159,7 @@ public class SimplifiedOkeyGame {
      * checks if there are more tiles on the stack to continue the game
      */
     public boolean hasMoreTileInStack() {
+        System.out.println("There is Tiles in the stack: "+ (tiles.length != 1));
         return tiles.length != 1;
     }
 
@@ -220,8 +221,9 @@ public class SimplifiedOkeyGame {
                 leastUsefulIndex = i;
                 longestChain = tempLongestChain;
             }
-            this.discardTile(leastUsefulIndex);
         }
+        this.discardTile(leastUsefulIndex);
+
         
     }
 
