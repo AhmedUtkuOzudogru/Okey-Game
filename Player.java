@@ -67,12 +67,6 @@ public class Player {
         this.playerTiles [index] = null;
         this.sortTiles();
 
-        // Shift remaining tiles to the left
-        for (int i = index - 1; i > 0 ; i--)
-        {
-            this.playerTiles [i + 1] = this.playerTiles [i];
-        }
-
         // Clear the last slot
         this.playerTiles [0] = null;
         this.numberOfTiles--;
