@@ -124,7 +124,6 @@ public class ApplicationMain {
                 if(gameContinues) {
                     // if game did not end computer should discard
                     game.discardTileForComputer();
-                    System.out.println("Last Discarded Tile is"+game.getLastDiscardedTile());
                     game.passTurnToNextPlayer();
                 }
                 else{

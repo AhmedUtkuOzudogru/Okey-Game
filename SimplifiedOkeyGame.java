@@ -123,10 +123,8 @@ public class SimplifiedOkeyGame {
             return "No tiles left";
         }
         Tile topTile = tiles[0];
-        if (tiles.length > 1) {
-            tiles = Arrays.copyOfRange(tiles, 1, tiles.length - 1);
-            players[getCurrentPlayerIndex()].addTile(topTile);
-        }
+        tiles = Arrays.copyOfRange(tiles, 1, tiles.length - 1);
+        players[getCurrentPlayerIndex()].addTile(topTile);
         // Shift the tiles array to the left to remove the top tile
         /*
          * for (int i = 0; i < tiles.length - 1; i++) {
