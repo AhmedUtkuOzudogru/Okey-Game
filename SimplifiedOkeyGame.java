@@ -72,27 +72,6 @@ public class SimplifiedOkeyGame {
         tiles = Arrays.copyOfRange(tiles, index, tiles.length);
     }
 
-    /*
-     * public void distributeTilesToPlayers() {
-     * 
-     * int index = 0;
-     * for (Player player: players){
-     * for (int i = 0; i < 14; i++){
-     * player.addTile(tiles[index]);
-     * index++;
-     * 
-     * }
-     * }
-     * players[0].addTile(tiles[index]);
-     * index++;
-     * tiles=Arrays.copyOfRange(tiles,index+1,tiles.length-1);
-     * for(int i=0;i<103-index;i++){
-     * tiles[i]=tiles[index];
-     * tiles[index]=null;
-     * index++;
-     * }
-     * }
-     */
 
     /*
      * TODO: get the last discarded tile for the current player
@@ -119,24 +98,21 @@ public class SimplifiedOkeyGame {
     // ------------------------- DONE BUT NOT TESTED -----------------------------
     public String getTopTile() {
         // Check if there are any tiles left
-        if (tiles.length == 0) {
-            return "No tiles left";
+        if (tiles.length == 1) {
+            Tile topTile = tiles[0];
+            players[getCurrentPlayerIndex()].addTile(topTile);
+            return topTile.toString();
+            
+        }        
+        else if (tiles.length > 1) {
+            Tile topTile = tiles[0];
+            tiles = Arrays.copyOfRange(tiles, 1, tiles.length - 1);
+            players[getCurrentPlayerIndex()].addTile(topTile);
+            return topTile.toString();
         }
-        Tile topTile = tiles[0];
-        tiles = Arrays.copyOfRange(tiles, 1, tiles.length - 1);
-        players[getCurrentPlayerIndex()].addTile(topTile);
-        // Shift the tiles array to the left to remove the top tile
-        /*
-         * for (int i = 0; i < tiles.length - 1; i++) {
-         * tiles[i] = tiles[i + 1];
-         * }
-         * tiles=Arrays.copyOfRange(tiles,1,tiles.length-1);
-         * 
-         * // Add the top tile to the current player
-         * players[getCurrentPlayerIndex()].addTile(topTile);
-         */
-        // Return the toString representation of the top tile
-        return topTile.toString();
+
+        return " not tiles";
+        
     }
 
     /*
@@ -183,7 +159,7 @@ public class SimplifiedOkeyGame {
      * checks if there are more tiles on the stack to continue the game
      */
     public boolean hasMoreTileInStack() {
-        return tileCount != 0;
+        return tiles.length != 1;
     }
 
     /*
@@ -195,7 +171,7 @@ public class SimplifiedOkeyGame {
      */
     // ----------------------- DONE --------------------------
     public void pickTileForComputer() {
-
+        if(tiles.length!=1){
         int currLongest = players[getCurrentPlayerIndex()].findLongestChain();
         Tile testLastTile = lastDiscardedTile;
         players[getCurrentPlayerIndex()].addTile(testLastTile);
@@ -209,144 +185,44 @@ public class SimplifiedOkeyGame {
         } else {
             System.out.println(players[getCurrentPlayerIndex()].getName() + " picked The Top Tile" + getTopTile());
         }
+    }else{
+        System.out.println(players[getCurrentPlayerIndex()].getName() + " picked The Last Discarded Tile"
+                    + getLastDiscardedTile());
+    }
 
     }
 
-    /*
+        /*
      * TODO: Current computer player will discard the least useful tile.
      * you may choose based on how useful each tile is
      */
     public void discardTileForComputer() {
         Tile[] tiles = players[getCurrentPlayerIndex()].getTiles();
-        // Check for matching pairs
+        // Check for duplicates
         for (int i = 0; i < tiles.length - 1; i++) {
             if (tiles[i].matchingTiles(tiles[i + 1])) {
                 discardTile(i);
                 return;
             }
+        }int leastUsefulIndex = 0;
+        int longestChain = 0;
+    
+        for (int i = 0; i < players[currentPlayerIndex].numberOfTiles; i++) {
+            Tile currentTile = players[currentPlayerIndex].getTiles()[i];
+    
+            // Simulate removing and re-adding the current tile to find the longest chain
+            players[currentPlayerIndex].getAndRemoveTile(i);
+            int tempLongestChain = players[currentPlayerIndex].findLongestChain();
+            players[currentPlayerIndex].addTile(currentTile);
+    
+            // Update least useful index if a longer chain is found
+            if (tempLongestChain > longestChain) {
+                leastUsefulIndex = i;
+                longestChain = tempLongestChain;
+            }
+            this.discardTile(leastUsefulIndex);
         }
-
-        // Check if any tile can form a chain with its neighbors
-        if (!tiles[0].canFormChainWith(tiles[1])) {
-            discardTile(0);
-            return;
-        }
-
-        if (!tiles[tiles.length - 1].canFormChainWith(tiles[tiles.length - 2])) {
-            discardTile(tiles.length - 1);
-            return;
-        }
-
-        // If no specific conditions are met, discard the last tile
-        discardTile(tiles.length - 1);
-
-        /*
-         * for (int a = 0; a < players[getCurrentPlayerIndex()].getTiles().length - 1;
-         * a++) {
-         * if (players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[
-         * getCurrentPlayerIndex()].getTiles()[a + 1])) {
-         * discardTile(a);
-         * break;
-         * }
-         * }
-         * 
-         * switch
-         * (players[getCurrentPlayerIndex()].getTiles()[0].canFormChainWith(players[
-         * getCurrentPlayerIndex()].getTiles()[1])) {
-         * case true:
-         * break;
-         * case false:
-         * discardTile(0);
-         * break;
-         * }
-         * 
-         * switch
-         * (players[getCurrentPlayerIndex()].getTiles()[14].canFormChainWith(players[
-         * getCurrentPlayerIndex()].getTiles()[13])) {
-         * case true:
-         * break;
-         * case false:
-         * discardTile(14);
-         * break;
-         * }
-         * 
-         * for (int a = 1; a < players[getCurrentPlayerIndex()].getTiles().length - 1;
-         * a++) {
-         * if (players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[
-         * getCurrentPlayerIndex()].getTiles()[a + 1]) ||
-         * players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[
-         * getCurrentPlayerIndex()].getTiles()[a - 1])) {
-         * discardTile(a);
-         * break;
-         * }
-         * }
-         * 
-         * int longestChain = 0;
-         * 
-         * for (int a = 0; a < players[currentPlayerIndex].numberOfTiles; a++) {
-         * Tile testTile = players[currentPlayerIndex].getTiles()[a];
-         * 
-         * players[currentPlayerIndex].getAndRemoveTile(a);
-         * int currLongest = players[currentPlayerIndex].findLongestChain();
-         * players[currentPlayerIndex].addTile(testTile);
-         * 
-         * if (currLongest > longestChain) {
-         * longestChain = currLongest;
-         * discardTile(a);
-         * break;
-         * }
-         * }
-         */
-
-        /*
-         * for(int a=0;a<players[getCurrentPlayerIndex()].getTiles().length-1;a++){
-         * if(players[getCurrentPlayerIndex()].getTiles()[a].matchingTiles(players[
-         * getCurrentPlayerIndex()].getTiles()[a+1])){
-         * discardTile(a);
-         * break;
-         * 
-         * }
-         * }
-         * if(!(players[getCurrentPlayerIndex()].getTiles()[0].canFormChainWith(players[
-         * getCurrentPlayerIndex()].getTiles()[1]))){
-         * discardTile(0);
-         * 
-         * }else
-         * if(!(players[getCurrentPlayerIndex()].getTiles()[14].canFormChainWith(players
-         * [getCurrentPlayerIndex()].getTiles()[13]))){
-         * discardTile(14);
-         * 
-         * }
-         * for(int a=1;a<players[getCurrentPlayerIndex()].getTiles().length-1;a++)
-         * {
-         * if(players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[
-         * getCurrentPlayerIndex()].getTiles()[a+1]) ||
-         * players[getCurrentPlayerIndex()].getTiles()[a].canFormChainWith(players[
-         * getCurrentPlayerIndex()].getTiles()[a-1]) ){
-         * discardTile(a);
-         * break;
-         * }
-         * 
-         * }
-         * 
-         * int longestChain = 0;
-         * 
-         * for (int a = 0; a < players[currentPlayerIndex].numberOfTiles; a++)
-         * {
-         * Tile testTile = players[currentPlayerIndex].getTiles()[a];
-         * 
-         * players[currentPlayerIndex].getAndRemoveTile(a);
-         * int currLongest = players[currentPlayerIndex].findLongestChain();
-         * players[currentPlayerIndex].addTile(testTile);
-         * 
-         * if(currLongest > longestChain)
-         * {
-         * longestChain = currLongest;
-         * discardTile(a);
-         * }
-         * }
-         */
-
+        
     }
 
     /*
@@ -356,6 +232,7 @@ public class SimplifiedOkeyGame {
      */
     // -----------------------------DONE------------------------------------
     public void discardTile(int tileIndex) {
+        System.out.println(getCurrentPlayerName()+" discarded " + players[getCurrentPlayerIndex()].getTiles()[tileIndex].getValue());
         lastDiscardedTile = players[getCurrentPlayerIndex()].getAndRemoveTile(tileIndex);
     }
 
